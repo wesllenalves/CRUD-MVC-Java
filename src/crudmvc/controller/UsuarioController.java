@@ -10,8 +10,11 @@ import crudmvc.model.Usuario;
 import crudmvc.model.UsuarioDao;
 import java.awt.Component;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,9 +26,17 @@ public class UsuarioController {
     Conexao conecta = new Conexao();
 
     public boolean salvarUsuario(Usuario user) {
-
-        UsuarioDao dao = new UsuarioDao();
+        if((user.getUser().equals("")) || (user.getPassword().equals(""))){
+        JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
+        return false;
+        }      
+        
+        UsuarioDao dao = new UsuarioDao();        
+       if( dao.checkUsuario(user.getUser())){
+       JOptionPane.showMessageDialog(null, "Usuario já cadastrado por favor coloque outro");
+       }else{  
         dao.insere(user.getUser(), user.getPassword());
+       }
         return true;
 
     }
@@ -38,8 +49,16 @@ public class UsuarioController {
     }
 
     public boolean atualizar(Usuario user, String id) {
+        if((user.getUser().equals("")) || (user.getPassword().equals(""))){
+        JOptionPane.showMessageDialog(null, "Por favor preencha todos os campos");
+        return false;
+        }
         UsuarioDao dao = new UsuarioDao();        
+       if( dao.checkUsuario(user.getUser())){
+       JOptionPane.showMessageDialog(null, "Usuario já cadastrado por favor coloque outro");
+       }else{ 
         dao.update(id, user.getUser(), user.getPassword());
+       }
             
          return true; 
     }

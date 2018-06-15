@@ -279,26 +279,28 @@ public class ViewMenu extends javax.swing.JFrame {
     public void preencherTabela(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"ID", "USERNAME"};
+        String[] Colunas = new String[]{"ID", "USERNAME","PASSWORD"};
         conecta.executaSQL(SQL);
 
         try {
 
             conecta.rs.first();
             do {
-                dados.add(new Object[]{conecta.rs.getString("ID"), conecta.rs.getString("USERNAME")});
+                dados.add(new Object[]{conecta.rs.getString("ID"), conecta.rs.getString("USERNAME"), conecta.rs.getString("PASSWORD")});
             } while (conecta.rs.next());
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao trazer os registros \n" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Não existe dados cadastrados no banco \n");
         }
 
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTableUsuario.setModel(modelo);
-        jTableUsuario.setRowHeight(20);
-        jTableUsuario.setFont(new Font("Serif", Font.PLAIN, 20));
+        jTableUsuario.setDefaultRenderer(Object.class, new CellRenderer());//centralizar o conteudo das celulas da tabela
+        jTableUsuario.setRowHeight(20);// cetar a altura de cada celular
+        jTableUsuario.setFont(new Font("Serif", Font.PLAIN, 20));//setar qual a fonte usada e o tamanho
         jTableUsuario.getColumnModel().getColumn(0).setPreferredWidth(30);
-        jTableUsuario.getColumnModel().getColumn(1).setPreferredWidth(500);
+        jTableUsuario.getColumnModel().getColumn(1).setPreferredWidth(260);
+        jTableUsuario.getColumnModel().getColumn(2).setPreferredWidth(260);
         jTableUsuario.getColumnModel().getColumn(0).setResizable(false);
         jTableUsuario.getTableHeader().setResizingAllowed(false);
         jTableUsuario.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);

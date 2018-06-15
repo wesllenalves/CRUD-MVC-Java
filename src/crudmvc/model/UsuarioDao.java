@@ -16,8 +16,9 @@ public class UsuarioDao {
 
     Conexao conecta = new Conexao();
     //private final Connection conexao;
-//    private PreparedStatement ps;
-    private ResultSet rs;
+ PreparedStatement stmt =  null;
+ ResultSet rs =  null;
+ boolean check = false;
 
     //insere um registro de usuario no banco de dados...
     public void insere(String user, String password) {
@@ -62,11 +63,35 @@ public class UsuarioDao {
             PreparedStatement pst = conecta.conn.prepareStatement("UPDATE TB_USUARIO SET USERNAME =? WHERE  ID=  "+id+" "); 
             pst.setString(1, usuario);
             pst.executeUpdate();
+            
             JOptionPane.showMessageDialog(null, "Registro Atualizado com sucesso.");
         } catch (SQLException ex) {
 
             JOptionPane.showMessageDialog(null, "Erro ao Atualizado registro\n" + ex.getMessage());
         }
+
+    }
+    public boolean checkUsuario(String usuario) {
+        
+        try {                  
+            
+            conecta.Conexao();
+            stmt = conecta.conn.prepareStatement("SELECT * FROM TB_USUARIO WHERE USERNAME=?");     
+            stmt.setString(1, usuario);
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){                
+                check = true;            
+            }
+            
+            
+            
+        } catch (SQLException ex) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao Atualizado registro\n" + ex.getMessage());
+        }
+        
+        return check;
 
     }
 
