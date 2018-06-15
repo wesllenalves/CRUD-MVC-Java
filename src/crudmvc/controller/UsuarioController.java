@@ -19,32 +19,29 @@ import javax.swing.JOptionPane;
  * @author Wesllen
  */
 public class UsuarioController {
+
     Conexao conecta = new Conexao();
-    
-    public boolean salvarUsuario(Usuario user){    
+
+    public boolean salvarUsuario(Usuario user) {
 
         UsuarioDao dao = new UsuarioDao();
-         dao.insere(user.getUser(), user.getPassword());
-         return true;
-        
+        dao.insere(user.getUser(), user.getPassword());
+        return true;
+
     }
-    
-//    public boolean listaUsuario(Usuario user){
-//        
-//        UsuarioDao dao = new UsuarioDao();
-//        
-//    
-//    }
-    
-//    public static ArrayList<String[]> getUsuarios(){
-//     ArrayList<String[]> Usuarios = new ArrayList();
-//     ArrayList<Usuario> U = Usuario.getUsuario();
-//     for(int i=0; i<U.size();i++){
-//     String u[] = new String [2];
-//     u[0] = U.get(i).getUser();
-//     u[1] = U.get(i).getPassword();
-//     }
-//     
-//     return Usuarios;
-//    }
+
+    public boolean excluir(String usuario, String id) {
+
+        UsuarioDao dao = new UsuarioDao();
+        dao.excluir(id);
+        return true;
+    }
+
+    public boolean atualizar(Usuario user, String id) {
+        UsuarioDao dao = new UsuarioDao();        
+        dao.update(id, user.getUser(), user.getPassword());
+            
+         return true; 
+    }
+
 }

@@ -13,12 +13,11 @@ import javax.swing.JOptionPane;
  * @author u843573
  */
 public class UsuarioDao {
- Conexao conecta = new Conexao();
+
+    Conexao conecta = new Conexao();
     //private final Connection conexao;
 //    private PreparedStatement ps;
     private ResultSet rs;
-
-   
 
     //insere um registro de usuario no banco de dados...
     public void insere(String user, String password) {
@@ -33,7 +32,42 @@ public class UsuarioDao {
 
             JOptionPane.showMessageDialog(null, "Erro ao inserir registro\n" + ex.getMessage());
         }
-        
+
+    }
+
+    //insere um registro de usuario no banco de dados...
+    public void excluir(String id) {
+        Integer numero;
+        try {
+            numero = Integer.parseInt(id);
+            
+            conecta.Conexao();
+            PreparedStatement pst = conecta.conn.prepareStatement("DELETE FROM TB_USUARIO WHERE  ID=  "+numero+" ");            
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Registro Excluido com sucesso.");
+        } catch (SQLException ex) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao excluir registro\n" + ex.getMessage());
+        }
+
+    }
+    
+    //insere um registro de usuario no banco de dados...
+    public void update(String id, String usuario, String senha) {
+        Integer numero;
+        try {
+            numero = Integer.parseInt(id);          
+            
+            conecta.Conexao();
+            PreparedStatement pst = conecta.conn.prepareStatement("UPDATE TB_USUARIO SET USERNAME =? WHERE  ID=  "+id+" "); 
+            pst.setString(1, usuario);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Registro Atualizado com sucesso.");
+        } catch (SQLException ex) {
+
+            JOptionPane.showMessageDialog(null, "Erro ao Atualizado registro\n" + ex.getMessage());
+        }
+
     }
 
     /*

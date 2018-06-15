@@ -9,12 +9,14 @@ import crudmvc.controller.UsuarioController;
 import crudmvc.model.Conexao;
 import crudmvc.model.ModeloTabela;
 import crudmvc.model.Usuario;
+import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  *
@@ -48,16 +50,17 @@ public class ViewMenu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        novo = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldUsuario = new javax.swing.JTextField();
         jTextFieldSenha = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        colocarEdicao = new javax.swing.JButton();
+        excluir = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableUsuario = new javax.swing.JTable();
+        editar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,7 +101,7 @@ public class ViewMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setText("Novo");
+        novo.setText("Novo");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -111,9 +114,19 @@ public class ViewMenu extends javax.swing.JFrame {
 
         jLabel3.setText("Senha:");
 
-        jButton3.setText("Colocar em Edição");
+        colocarEdicao.setText("Colocar em Edição");
+        colocarEdicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colocarEdicaoActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Excluir");
+        excluir.setText("Excluir");
+        excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                excluirActionPerformed(evt);
+            }
+        });
 
         jTableUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,7 +139,19 @@ public class ViewMenu extends javax.swing.JFrame {
 
             }
         ));
+        jTableUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableUsuarioMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableUsuario);
+
+        editar.setText("Editar");
+        editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,13 +169,15 @@ public class ViewMenu extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButton3)
+                                    .addComponent(colocarEdicao)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(editar)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton4)
+                                    .addComponent(excluir)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jButtonSalvar)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton1)))
+                                    .addComponent(novo)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -181,10 +208,12 @@ public class ViewMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
+                        .addComponent(novo)
                         .addComponent(jButtonSalvar)
-                        .addComponent(jButton4))
-                    .addComponent(jButton3))
+                        .addComponent(excluir))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(colocarEdicao)
+                        .addComponent(editar)))
                 .addGap(22, 22, 22))
         );
 
@@ -199,31 +228,78 @@ public class ViewMenu extends javax.swing.JFrame {
         if (controller.salvarUsuario(user)) {
             jTextFieldUsuario.setText("");
             jTextFieldSenha.setText("");
+            excluir.setEnabled(true);
+            novo.setEnabled(true);
             preencherTabela("select * from TB_USUARIO");
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+    private void jTableUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuarioMouseClicked
+//       String nome_usuario = "" + jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 1);
+//       jTextFieldUsuario.setText(nome_usuario);
+//       excluir.setEnabled(false);
+//       novo.setEnabled(false);
+    }//GEN-LAST:event_jTableUsuarioMouseClicked
+
+    private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
+        String usuario = "" + jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 0);
+        String id = "" + jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 1);
+        UsuarioController controller = new UsuarioController();
+        if (controller.excluir(id, usuario)) {
+            preencherTabela("select * from TB_USUARIO");
+        }
+    }//GEN-LAST:event_excluirActionPerformed
+
+    private void colocarEdicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colocarEdicaoActionPerformed
+        String nome_usuario = "" + jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 1);
+        jTextFieldUsuario.setText(nome_usuario);
+        excluir.setEnabled(false);
+        novo.setEnabled(false);
+        jButtonSalvar.setEnabled(false);
+
+    }//GEN-LAST:event_colocarEdicaoActionPerformed
+
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        String id = "" + jTableUsuario.getValueAt(jTableUsuario.getSelectedRow(), 0);
+
+        Usuario user = new Usuario();
+        user.setUser(jTextFieldUsuario.getText());
+        user.setPassword(jTextFieldSenha.getText());
+        UsuarioController controller = new UsuarioController();
+        if (controller.atualizar(user, id)) {
+            excluir.setEnabled(true);
+            novo.setEnabled(true);
+            jButtonSalvar.setEnabled(true);
+            jTextFieldUsuario.setText("");
+            jTextFieldSenha.setText("");
+            preencherTabela("select * from TB_USUARIO");
+        }
+    }//GEN-LAST:event_editarActionPerformed
+
     public void preencherTabela(String SQL) {
         ArrayList dados = new ArrayList();
 
-        String[] Colunas = new String[]{"USERNAME"};
+        String[] Colunas = new String[]{"ID", "USERNAME"};
         conecta.executaSQL(SQL);
 
         try {
 
             conecta.rs.first();
             do {
-                dados.add(new Object[]{conecta.rs.getString("USERNAME")});
+                dados.add(new Object[]{conecta.rs.getString("ID"), conecta.rs.getString("USERNAME")});
             } while (conecta.rs.next());
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao trazer os registros \n" + ex.getMessage());
         }
-        
+
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTableUsuario.setModel(modelo);
-        jTableUsuario.getColumnModel().getColumn(0).setPreferredWidth(535);
-        jTableUsuario.getColumnModel().getColumn(0).setResizable(false);       
+        jTableUsuario.setRowHeight(20);
+        jTableUsuario.setFont(new Font("Serif", Font.PLAIN, 20));
+        jTableUsuario.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jTableUsuario.getColumnModel().getColumn(1).setPreferredWidth(500);
+        jTableUsuario.getColumnModel().getColumn(0).setResizable(false);
         jTableUsuario.getTableHeader().setResizingAllowed(false);
         jTableUsuario.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
         jTableUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -234,9 +310,9 @@ public class ViewMenu extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton colocarEdicao;
+    private javax.swing.JButton editar;
+    private javax.swing.JButton excluir;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -249,5 +325,6 @@ public class ViewMenu extends javax.swing.JFrame {
     private javax.swing.JTable jTableUsuario;
     private javax.swing.JTextField jTextFieldSenha;
     private javax.swing.JTextField jTextFieldUsuario;
+    private javax.swing.JButton novo;
     // End of variables declaration//GEN-END:variables
 }
